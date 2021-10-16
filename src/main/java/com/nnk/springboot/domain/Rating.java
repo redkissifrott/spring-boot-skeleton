@@ -13,6 +13,10 @@ import lombok.Data;
 @Table(name = "rating")
 public class Rating {
 
+	public Rating(String string, String string2, String string3, int i) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;

@@ -15,9 +15,15 @@ import lombok.Data;
 @Table(name = "curvepoint")
 public class CurvePoint {
 
+	public CurvePoint(int i, double d, double e) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+
+	private Integer curveId;
 
 	private Timestamp asOfDate;
 

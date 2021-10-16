@@ -15,6 +15,10 @@ import lombok.Data;
 @Table(name = "trade")
 public class Trade {
 
+	public Trade(String string, String string2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer TradeId;
@@ -58,4 +62,14 @@ public class Trade {
 	private String sourceListId;
 
 	private String side;
+
+	public Object getAccount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setAccount(String string) {
+		// TODO Auto-generated method stub
+
+	}
 }

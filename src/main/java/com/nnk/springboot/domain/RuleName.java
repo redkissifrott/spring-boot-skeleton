@@ -13,6 +13,11 @@ import lombok.Data;
 @Table(name = "rulename")
 public class RuleName {
 
+	public RuleName(String string, String string2, String string3,
+			String string4, String string5, String string6) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;

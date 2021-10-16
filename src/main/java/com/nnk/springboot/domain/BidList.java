@@ -2,11 +2,15 @@ package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -15,14 +19,28 @@ import lombok.Data;
 @Table(name = "bidlist")
 public class BidList {
 
+	public BidList(@NotBlank(message = "Account is mandatory") String account,
+			@NotBlank(message = "Type is mandatory") String type,
+			@NotNull(message = "Bid Quantity is mandatory") @Digits(integer = 2, fraction = 1, message = "Bid Quantity must be in the numeric format 'xx,x'") Double bidQuantity) {
+		super();
+		this.account = account;
+		this.type = type;
+		this.bidQuantity = bidQuantity;
+	}
+
 	@Id
+	@Column(name = "BidListId")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer BidListId;
 
+	@NotBlank(message = "Account is mandatory")
 	private String account;
 
+	@NotBlank(message = "Type is mandatory")
 	private String type;
 
+	@NotNull(message = "Bid Quantity is mandatory")
+	@Digits(integer = 2, fraction = 1, message = "Bid Quantity must be in the numeric format 'xx,x'")
 	private Double bidQuantity;
 
 	private Double askQuantity;
