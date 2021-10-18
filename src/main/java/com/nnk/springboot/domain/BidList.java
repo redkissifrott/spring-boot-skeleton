@@ -13,16 +13,20 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "bidlist")
 public class BidList {
 
-	public BidList(@NotBlank(message = "Account is mandatory") String account,
+	public BidList(int id,
+			@NotBlank(message = "Account is mandatory") String account,
 			@NotBlank(message = "Type is mandatory") String type,
 			@NotNull(message = "Bid Quantity is mandatory") @Digits(integer = 2, fraction = 1, message = "Bid Quantity must be in the numeric format 'xx,x'") Double bidQuantity) {
 		super();
+		this.BidListId = id;
 		this.account = account;
 		this.type = type;
 		this.bidQuantity = bidQuantity;
@@ -31,7 +35,7 @@ public class BidList {
 	@Id
 	@Column(name = "BidListId")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer BidListId;
+	private int BidListId;
 
 	@NotBlank(message = "Account is mandatory")
 	private String account;

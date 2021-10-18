@@ -8,18 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.config.CustomUserDetails;
 import com.nnk.springboot.domain.User;
-import com.nnk.springboot.repositories.UserRepository;
 
 @Service
 public class CustomUserDetailsServices implements UserDetailsService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		User user = userRepository.findUserByUsername(username);
+		User user = userService.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found");
 		}

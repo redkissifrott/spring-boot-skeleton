@@ -20,8 +20,9 @@ public class BidListService {
 		return bidListRepository.save(bidList);
 	}
 
-	public void deleteBidList(BidList bid) {
+	public Boolean deleteBidList(BidList bid) {
 		bidListRepository.delete(bid);
+		return true;
 	}
 
 }
