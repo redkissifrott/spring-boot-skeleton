@@ -1,5 +1,7 @@
 package com.nnk.springboot.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class BidListService {
 
 	public Iterable<BidList> getBidLists() {
 		return bidListRepository.findAll();
+	}
+
+	public Optional<BidList> getBidListById(Integer id) {
+		return bidListRepository.findById(id);
 	}
 
 	public BidList saveBidList(BidList bidList) {

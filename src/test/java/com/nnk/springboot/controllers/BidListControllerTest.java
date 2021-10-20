@@ -19,9 +19,7 @@ import com.nnk.springboot.services.BidListService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(controllers = BidListController.class)
-// @SpringBootTest
 @ContextConfiguration
-// @WithMockUser(username = "postmanTest", roles = "USER")
 @WithMockUser(roles = "USER")
 public class BidListControllerTest {
 
@@ -33,6 +31,15 @@ public class BidListControllerTest {
 
 	@MockBean
 	private BidListRepository bidListRepository;
+
+	// @Test
+	// public void bidListAdd() throws Exception {
+	// this.mockMvc.perform(post("/bidList/validate")
+	// .contentType(MediaType.APPLICATION_JSON).content(
+	// "{ \"account\":\"Account Test\", \"type\":\"Type Test\",
+	// \"bidQuantity\":\"10\" }"))
+	// .andExpect(status().isOk());
+	// }
 
 	@Test
 	// @WithMockUser(username = "postmanTest", authorities = "USER")
