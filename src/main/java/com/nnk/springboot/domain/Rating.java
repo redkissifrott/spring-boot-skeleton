@@ -7,15 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "rating")
 public class Rating {
-
-	public Rating(String string, String string2, String string3, int i) {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,4 +26,14 @@ public class Rating {
 	private String fitchRating;
 
 	private Integer orderNumber;
+
+	public Rating(String moodysRating, String sandPRating, String fitchRating,
+			Integer orderNumber) {
+		super();
+		this.moodysRating = moodysRating;
+		this.sandPRating = sandPRating;
+		this.fitchRating = fitchRating;
+		this.orderNumber = orderNumber;
+	}
+
 }

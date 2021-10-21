@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,21 +10,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "trade")
 public class Trade {
 
-	public Trade(String string, String string2) {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer TradeId;
+	@Column(name = "TradeId")
+	private Integer tradeId;
 
-	private String account​;
+	private String account;
 
 	private String type;
 
@@ -63,13 +63,11 @@ public class Trade {
 
 	private String side;
 
-	public Object getAccount() {
-		// TODO Auto-generated method stub
-		return null;
+	public Trade(String account, String type, Double buyQuantity) {
+		super();
+		this.account = account;
+		this.type = type;
+		this.buyQuantity = buyQuantity;
 	}
 
-	public void setAccount(String string) {
-		// TODO Auto-generated method stub
-
-	}
 }

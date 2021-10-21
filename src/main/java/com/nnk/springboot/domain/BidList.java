@@ -21,21 +21,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "bidlist")
 public class BidList {
 
-	public BidList(int id,
-			@NotBlank(message = "Account is mandatory") String account,
-			@NotBlank(message = "Type is mandatory") String type,
-			@NotNull(message = "Bid Quantity is mandatory") @Digits(integer = 2, fraction = 1, message = "Bid Quantity must be in the numeric format 'xx,x'") Double bidQuantity) {
-		super();
-		this.BidListId = id;
-		this.account = account;
-		this.type = type;
-		this.bidQuantity = bidQuantity;
-	}
-
 	@Id
 	@Column(name = "BidListId")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int BidListId;
+	private int bidListId;
 
 	@NotBlank(message = "Account is mandatory")
 	private String account;
@@ -82,4 +71,15 @@ public class BidList {
 	private String sourceListId;
 
 	private String side;
+
+	public BidList(int id,
+			@NotBlank(message = "Account is mandatory") String account,
+			@NotBlank(message = "Type is mandatory") String type,
+			@NotNull(message = "Bid Quantity is mandatory") @Digits(integer = 2, fraction = 1, message = "Bid Quantity must be in the numeric format 'xx,x'") Double bidQuantity) {
+		super();
+		this.bidListId = id;
+		this.account = account;
+		this.type = type;
+		this.bidQuantity = bidQuantity;
+	}
 }
