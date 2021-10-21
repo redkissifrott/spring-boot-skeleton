@@ -1,6 +1,10 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.Trade;
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,46 +13,77 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
+import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.services.TradeService;
 
 @Controller
 public class TradeController {
-    // TODO: Inject Trade service
 
-    @RequestMapping("/trade/list")
-    public String home(Model model)
-    {
-        // TODO: find all Trade, add to model
-        return "trade/list";
-    }
+	@Autowired
+	TradeService tradeService;
 
-    @GetMapping("/trade/add")
-    public String addUser(Trade bid) {
-        return "trade/add";
-    }
+	private final Logger logger = LoggerFactory
+			.getLogger(TradeController.class);
 
-    @PostMapping("/trade/validate")
-    public String validate(@Valid Trade trade, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Trade list
-        return "trade/add";
-    }
+	@RequestMapping("/trade/list")
+	public String home(Model model) {
+		model.addAttribute("listTrades", tradeService.getTrades());
+		return "trade/list";
+	}
 
-    @GetMapping("/trade/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Trade by Id and to model then show to the form
-        return "trade/update";
-    }
+	@GetMapping("/trade/add")
+	public String addTradeForm(Trade trade) {
+		return "trade/add";
+	}
 
-    @PostMapping("/trade/update/{id}")
-    public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
-                             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Trade and return Trade list
-        return "redirect:/trade/list";
-    }
+	@PostMapping("/trade/validate")
+	public String validate(@Valid Trade trade, BindingResult result,
+			Model model) {
+		logger.info(
+				"Request : /trade/add - Trade : Id = {} - Account = {} - Type = {} - Buy Quantity = {}",
+				trade.getTradeId(), trade.getAccount(), trade.getType(),
+				trade.getBuyQuantity());
+		if (!result.hasErrors()) {
+			tradeService.saveTrade(trade);
+			model.addAttribute("listTrades", tradeService.getTrades());
+			logger.info("Add Trade validated");
+			return "redirect:/trade/list";
+		}
+		logger.info("Errors in the form");
+		return "trade/add";
+	}
 
-    @GetMapping("/trade/delete/{id}")
-    public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Trade by Id and delete the Trade, return to Trade list
-        return "redirect:/trade/list";
-    }
+	@GetMapping("/trade/update/{id}")
+	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+		Trade trade = tradeService.getTradeById(id).get();
+		model.addAttribute("trade", trade);
+		return "trade/update";
+	}
+
+	@PostMapping("/trade/update/{id}")
+	public String updateTrade(@PathVariable("id") Integer id,
+			@Valid Trade trade, BindingResult result, Model model) {
+		logger.info(
+				"Request : /trade/update - Trade : Id = {} - Account = {} - Type = {} - Buy Quantity = {}",
+				trade.getTradeId(), trade.getAccount(), trade.getType(),
+				trade.getBuyQuantity());
+		if (!result.hasErrors()) {
+			tradeService.saveTrade(trade);
+			model.addAttribute("listTrades", tradeService.getTrades());
+			logger.info("Update Trade validated");
+			return "redirect:/trade/list";
+		}
+		logger.info("Errors in the form");
+		model.addAttribute("trade", trade);
+		return "/trade/update";
+	}
+
+	@GetMapping("/trade/delete/{id}")
+	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
+		Trade trade = tradeService.getTradeById(id).get();
+		logger.info("Request : /trade/delete/{}", trade.getTradeId());
+		tradeService.deleteTrade(trade);
+		logger.info("Return : Delete OK");
+		return "redirect:/trade/list";
+	}
 }
