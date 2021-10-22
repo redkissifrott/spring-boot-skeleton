@@ -54,15 +54,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// .and().logout().logoutSuccessUrl("/").permitAll();
 	// }
 
+	// @Override
+	// protected void configure(HttpSecurity http) throws Exception {
+	// http.csrf().disable();
+	//
+	// http.authorizeRequests().antMatchers("/", "/home**").anonymous().and()
+	// .formLogin().defaultSuccessUrl("/bidList/list", true)
+	// .permitAll().and().logout().and().authorizeRequests()
+	// .antMatchers("/users").hasRole("USER").anyRequest()
+	// .authenticated();
+	// }
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
-
-		http.authorizeRequests().antMatchers("/", "/home**").anonymous().and()
-				.formLogin().defaultSuccessUrl("/bidList/list", true)
-				.permitAll().and().logout().and().authorizeRequests()
-				.antMatchers("/users").hasRole("USER").anyRequest()
-				.authenticated();
+		http.csrf().disable().formLogin()
+				.defaultSuccessUrl("/bidList/list", true).permitAll().and()
+				.logout().and().authorizeRequests().antMatchers("/users")
+				.hasRole("USER").anyRequest().authenticated();
 	}
-
 }
