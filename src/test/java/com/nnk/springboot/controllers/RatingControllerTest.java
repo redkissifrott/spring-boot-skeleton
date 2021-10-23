@@ -19,15 +19,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.repositories.BidListRepository;
-import com.nnk.springboot.services.BidListService;
+import com.nnk.springboot.domain.Rating;
+import com.nnk.springboot.repositories.RatingRepository;
+import com.nnk.springboot.services.RatingService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(controllers = BidListController.class)
+@WebMvcTest(controllers = RatingController.class)
 @ContextConfiguration
 @WithMockUser(roles = "USER")
-public class BidListControllerTest {
+public class RatingControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
@@ -36,61 +36,64 @@ public class BidListControllerTest {
 	ObjectMapper mapper;
 
 	@MockBean
-	private BidListService bidListService;
+	private RatingService ratingService;
 
 	@MockBean
-	private BidListRepository bidListRepository;
+	private RatingRepository ratingRepository;
 
 	@Test
-	public void testGetBidList() throws Exception {
-		mockMvc.perform(get("/bidList/list")).andExpect(status().isOk());
+	public void testGetRating() throws Exception {
+		mockMvc.perform(get("/rating/list")).andExpect(status().isOk());
 	}
 
 	@Test
 	public void testAddBid() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/bidList/validate")
+		mockMvc.perform(MockMvcRequestBuilders.post("/rating/validate")
 				.param("account", "acc").param("type", "typ")
 				.param("bidQuantity", "13.7"))
-				.andExpect(redirectedUrl("/bidList/list"));
+				.andExpect(redirectedUrl("/rating/list"));
 	}
 
 	@Test
 	public void testUpdateForm() throws Exception {
-		Optional<BidList> bid = Optional
-				.ofNullable(new BidList("account", "type", 13.7));
-		Mockito.when(bidListService.getBidListById(1)).thenReturn(bid);
-		mockMvc.perform(get("/bidList/update/1")).andExpect(status().isOk());
+		Optional<Rating> bid = Optional.ofNullable(new Rating("Moodys Rating",
+				"Sand PRating", "Fitch Rating", 10));
+		Mockito.when(ratingService.getRatingById(1)).thenReturn(bid);
+		mockMvc.perform(get("/rating/update/1")).andExpect(status().isOk());
 	}
 
 	@Test
 	public void testUpdateBid() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/bidList/update/1")
-				.param("account", "acc").param("type", "typ")
-				.param("bidQuantity", "13.7"))
-				.andExpect(redirectedUrl("/bidList/list"));
+		mockMvc.perform(MockMvcRequestBuilders.post("/rating/update/1")
+				.param("moodysRating", "Moodys Rating")
+				.param("sandPRating", "Sand PRating")
+				.param("fitchRating", "Fitch Rating").param("orderNumber", "1"))
+				.andExpect(redirectedUrl("/rating/list"));
 	}
 
 	@Test
 	public void testDeleteBid() throws Exception {
-		Optional<BidList> bid = Optional
-				.ofNullable(new BidList("account", "type", 13.7));
-		Mockito.when(bidListService.getBidListById(1)).thenReturn(bid);
-		mockMvc.perform(get("/bidList/delete/1"))
-				.andExpect(redirectedUrl("/bidList/list"));
+		Optional<Rating> bid = Optional.ofNullable(new Rating("Moodys Rating",
+				"Sand PRating", "Fitch Rating", 10));
+		Mockito.when(ratingService.getRatingById(1)).thenReturn(bid);
+		mockMvc.perform(get("/rating/delete/1"))
+				.andExpect(redirectedUrl("/rating/list"));
 	}
 
 	@Test
 	public void testUpdateBidError() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/bidList/update/1")
-				.param("type", "typ").param("bidQuantity", "13.7"))
+		mockMvc.perform(MockMvcRequestBuilders.post("/rating/update/1")
+				.param("sandPRating", "Sand PRating")
+				.param("fitchRating", "Fitch Rating").param("orderNumber", "a"))
 				.andExpect(status().isOk());
 
 	}
 
 	@Test
 	public void testAddBidEr() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/bidList/validate")
-				.param("type", "typ").param("bidQuantity", "13.7"))
+		mockMvc.perform(MockMvcRequestBuilders.post("/rating/validate")
+				.param("sandPRating", "Sand PRating")
+				.param("fitchRating", "Fitch Rating").param("orderNumber", "a"))
 				.andExpect(status().isOk());
 	}
 }

@@ -1,6 +1,7 @@
 package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +18,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "curvepoint")
 public class CurvePoint {
-
-	// public CurvePoint(int i, double d, double e) {
-	// // TODO Auto-generated constructor stub
-	// }
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,5 +39,27 @@ public class CurvePoint {
 		this.curveId = curveId;
 		this.term = term;
 		this.value = value;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CurvePoint other = (CurvePoint) obj;
+		return Objects.equals(asOfDate, other.asOfDate)
+				&& Objects.equals(creationDate, other.creationDate)
+				&& Objects.equals(curveId, other.curveId)
+				&& Objects.equals(id, other.id)
+				&& Objects.equals(term, other.term)
+				&& Objects.equals(value, other.value);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(asOfDate, creationDate, curveId, id, term, value);
 	}
 }

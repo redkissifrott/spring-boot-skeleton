@@ -1,5 +1,7 @@
 package com.nnk.springboot.domain;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +36,28 @@ public class Rating {
 		this.sandPRating = sandPRating;
 		this.fitchRating = fitchRating;
 		this.orderNumber = orderNumber;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Rating other = (Rating) obj;
+		return Objects.equals(fitchRating, other.fitchRating)
+				&& Objects.equals(id, other.id)
+				&& Objects.equals(moodysRating, other.moodysRating)
+				&& Objects.equals(orderNumber, other.orderNumber)
+				&& Objects.equals(sandPRating, other.sandPRating);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(fitchRating, id, moodysRating, orderNumber,
+				sandPRating);
 	}
 
 }

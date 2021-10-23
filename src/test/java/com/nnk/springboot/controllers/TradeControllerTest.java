@@ -19,15 +19,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.repositories.BidListRepository;
-import com.nnk.springboot.services.BidListService;
+import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.repositories.TradeRepository;
+import com.nnk.springboot.services.TradeService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(controllers = BidListController.class)
+@WebMvcTest(controllers = TradeController.class)
 @ContextConfiguration
 @WithMockUser(roles = "USER")
-public class BidListControllerTest {
+public class TradeControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
@@ -36,61 +36,61 @@ public class BidListControllerTest {
 	ObjectMapper mapper;
 
 	@MockBean
-	private BidListService bidListService;
+	private TradeService tradeService;
 
 	@MockBean
-	private BidListRepository bidListRepository;
+	private TradeRepository tradeRepository;
 
 	@Test
-	public void testGetBidList() throws Exception {
-		mockMvc.perform(get("/bidList/list")).andExpect(status().isOk());
+	public void testGetTrade() throws Exception {
+		mockMvc.perform(get("/trade/list")).andExpect(status().isOk());
 	}
 
 	@Test
 	public void testAddBid() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/bidList/validate")
+		mockMvc.perform(MockMvcRequestBuilders.post("/trade/validate")
 				.param("account", "acc").param("type", "typ")
-				.param("bidQuantity", "13.7"))
-				.andExpect(redirectedUrl("/bidList/list"));
+				.param("buyQuantity", "13.7"))
+				.andExpect(redirectedUrl("/trade/list"));
 	}
 
 	@Test
 	public void testUpdateForm() throws Exception {
-		Optional<BidList> bid = Optional
-				.ofNullable(new BidList("account", "type", 13.7));
-		Mockito.when(bidListService.getBidListById(1)).thenReturn(bid);
-		mockMvc.perform(get("/bidList/update/1")).andExpect(status().isOk());
+		Optional<Trade> bid = Optional
+				.ofNullable(new Trade("account", "type", 13.7));
+		Mockito.when(tradeService.getTradeById(1)).thenReturn(bid);
+		mockMvc.perform(get("/trade/update/1")).andExpect(status().isOk());
 	}
 
 	@Test
 	public void testUpdateBid() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/bidList/update/1")
+		mockMvc.perform(MockMvcRequestBuilders.post("/trade/update/1")
 				.param("account", "acc").param("type", "typ")
-				.param("bidQuantity", "13.7"))
-				.andExpect(redirectedUrl("/bidList/list"));
+				.param("buyQuantity", "13.7"))
+				.andExpect(redirectedUrl("/trade/list"));
 	}
 
 	@Test
 	public void testDeleteBid() throws Exception {
-		Optional<BidList> bid = Optional
-				.ofNullable(new BidList("account", "type", 13.7));
-		Mockito.when(bidListService.getBidListById(1)).thenReturn(bid);
-		mockMvc.perform(get("/bidList/delete/1"))
-				.andExpect(redirectedUrl("/bidList/list"));
+		Optional<Trade> bid = Optional
+				.ofNullable(new Trade("account", "type", 13.7));
+		Mockito.when(tradeService.getTradeById(1)).thenReturn(bid);
+		mockMvc.perform(get("/trade/delete/1"))
+				.andExpect(redirectedUrl("/trade/list"));
 	}
 
 	@Test
 	public void testUpdateBidError() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/bidList/update/1")
-				.param("type", "typ").param("bidQuantity", "13.7"))
+		mockMvc.perform(MockMvcRequestBuilders.post("/trade/update/1")
+				.param("type", "typ").param("buyQuantity", "a"))
 				.andExpect(status().isOk());
 
 	}
 
 	@Test
 	public void testAddBidEr() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/bidList/validate")
-				.param("type", "typ").param("bidQuantity", "13.7"))
+		mockMvc.perform(MockMvcRequestBuilders.post("/trade/validate")
+				.param("type", "typ").param("buyQuantity", "a"))
 				.andExpect(status().isOk());
 	}
 }

@@ -41,3 +41,10 @@ mvnw
 .mvn/wrapper/MavenWrapperDownloader.java
 
 .mvn/wrapper/maven-wrapper.jar
+<<<<<<< HEAD
+
+*.log
+
+src/test/java/com/nnk/springboot/BidTests.java
+=======
+>>>>>>> parent of f1d052b... tests

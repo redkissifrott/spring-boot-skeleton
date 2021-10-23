@@ -33,8 +33,23 @@ public class User {
 		this.id = id;
 	}
 
+	public User() {
+		super();
+	}
+
 	public String getUsername() {
 		return username;
+	}
+
+	public User(@NotBlank(message = "Username is mandatory") String username,
+			@NotBlank(message = "Password is mandatory") String password,
+			@NotBlank(message = "FullName is mandatory") String fullname,
+			@NotBlank(message = "Role is mandatory") String role) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.role = role;
 	}
 
 	public void setUsername(String username) {

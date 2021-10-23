@@ -1,6 +1,7 @@
 package com.nnk.springboot.domain;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,6 +69,46 @@ public class Trade {
 		this.account = account;
 		this.type = type;
 		this.buyQuantity = buyQuantity;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Trade other = (Trade) obj;
+		return Objects.equals(account, other.account)
+				&& Objects.equals(benchmark, other.benchmark)
+				&& Objects.equals(book, other.book)
+				&& Objects.equals(buyPrice, other.buyPrice)
+				&& Objects.equals(buyQuantity, other.buyQuantity)
+				&& Objects.equals(creationDate, other.creationDate)
+				&& Objects.equals(creationName, other.creationName)
+				&& Objects.equals(dealName, other.dealName)
+				&& Objects.equals(dealType, other.dealType)
+				&& Objects.equals(revisionDate, other.revisionDate)
+				&& Objects.equals(revisionName, other.revisionName)
+				&& Objects.equals(security, other.security)
+				&& Objects.equals(sellPrice, other.sellPrice)
+				&& Objects.equals(sellQuantity, other.sellQuantity)
+				&& Objects.equals(side, other.side)
+				&& Objects.equals(sourceListId, other.sourceListId)
+				&& Objects.equals(status, other.status)
+				&& Objects.equals(tradeDate, other.tradeDate)
+				&& Objects.equals(tradeId, other.tradeId)
+				&& Objects.equals(trader, other.trader)
+				&& Objects.equals(type, other.type);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(account, benchmark, book, buyPrice, buyQuantity,
+				creationDate, creationName, dealName, dealType, revisionDate,
+				revisionName, security, sellPrice, sellQuantity, side,
+				sourceListId, status, tradeDate, tradeId, trader, type);
 	}
 
 }
