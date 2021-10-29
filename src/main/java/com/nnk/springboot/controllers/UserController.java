@@ -26,6 +26,9 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	@RequestMapping("/user/list")
 	public String home(Model model) {
 		model.addAttribute("users", userRepository.findAll());
@@ -41,8 +44,8 @@ public class UserController {
 	public String validate(@Valid User user, BindingResult result,
 			Model model) {
 		if (!result.hasErrors()) {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(user.getPassword()));
+			// BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userRepository.save(user);
 			model.addAttribute("users", userRepository.findAll());
 			return "redirect:/user/list";
